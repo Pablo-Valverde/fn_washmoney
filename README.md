@@ -1,5 +1,5 @@
 # fn_washmoney 
-## V1.0.0
+### V1.0.0
 
 **Money laundry resource** for **GTAV [esx](https://github.com/esx-framework/esx-legacy) roleplay server**.
 This repository contains both server and client side scripts needed for setting up your own money laundry points, **fully customizable**, including:
