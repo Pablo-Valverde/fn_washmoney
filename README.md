@@ -10,7 +10,4 @@ This repository contains both server and client side scripts needed for setting 
 6. **Fully customizable trigger marker**
 7. **Fully customizable blip**
 
----
-This resource 
-
 All those points are explained on the **config.lua**
