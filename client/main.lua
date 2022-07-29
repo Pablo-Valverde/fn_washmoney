@@ -10,7 +10,6 @@ Keys = {
     ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-local PED_ID = PlayerPedId()
 local ID = 0
 
 ESX = nil
@@ -35,7 +34,7 @@ end
 local function playAnimation(dictionary, animation_name)
     RequestAnimDict(dictionary)
     while (not HasAnimDictLoaded(dictionary)) do Citizen.Wait(0) end
-    TaskPlayAnim(PED_ID, dictionary, animation_name, 5.0, -1.0, -1, Washing.Animation.Flag, 0, false, false, false)
+    TaskPlayAnim(PlayerPedId(), dictionary, animation_name, 5.0, -1.0, -1, Washing.Animation.Flag, 0, false, false, false)
 end
 
 --[[
@@ -108,8 +107,9 @@ local function StartWash()
     if _locked then return end
     if isWashing then return end
     isWashing = true
+    playerPedId = PlayerPedId()
 
-    lastPosition = GetEntityCoords(PED_ID)
+    lastPosition = GetEntityCoords(playerPedId)
 
     Citizen.CreateThread(function ()
         repeat
@@ -146,14 +146,14 @@ local function StartWash()
     while isWashing do
         Citizen.Wait(100)
     
-        local playerPos = GetEntityCoords(PED_ID)
+        local playerPos = GetEntityCoords(playerPedId)
         local dist = distance(playerPos, lastPosition)
         
         if dist > Marker.MaxFreeMovementDistance then StopWash() end
-        if Washing.Animation.Freeze then FreezeEntityPosition(PED_ID, isWashing) end
+        if Washing.Animation.Freeze then FreezeEntityPosition(playerPedId, isWashing) end
     end
 
-    if Washing.Animation.Enabled then ClearPedTasksImmediately(PED_ID) end
+    if Washing.Animation.Enabled then ClearPedTasksImmediately(playerPedId) end
 end
 
 Citizen.CreateThread(function ()
@@ -167,7 +167,7 @@ Citizen.CreateThread(function ()
             Citizen.Wait(0)
         end
 
-        playerPos = GetEntityCoords(PED_ID)
+        playerPos = GetEntityCoords(PlayerPedId())
         for k, v in pairs(Marker.Triggers) do
             dist = distance(playerPos, v)
             if dist < Marker.AllowInteractionDistance then
